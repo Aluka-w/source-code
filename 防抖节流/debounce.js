@@ -5,6 +5,11 @@
  * 但是在delay时间内再次触发的话，就会取消之前的计时器而重新设置
  */
 
+ /**
+  * 防抖函数实现
+  * @param {function} fn 执行函数
+  * @param {number} wait delay时间
+  */
 function debounce(fn, wait) {
   var timeout = null
   return function () {

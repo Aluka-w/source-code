@@ -3,7 +3,12 @@
  * 使得一定时间内只触发一次函数(多次点击触发一次)。
  * 原理是通过判断是否到达一定时间来触发函数。
  */
-// 时间戳方式
+
+/**
+ * 时间戳方式实现节流
+ * @param {function} func 处理函数
+ * @param {number} delay 触发时间
+ */
 var throttle = function (func, delay) {
   var prev = Date.now()
   return function () {
@@ -17,7 +22,11 @@ var throttle = function (func, delay) {
   }
 }
 
-// 定时器方式
+/**
+ * 定时器方式实现节流
+ * @param {function} func 处理函数
+ * @param {number} delay 触发时间
+ */
 var throttle2 = function (func, delay) {
   var timer = null
   return function () {
@@ -32,7 +41,11 @@ var throttle2 = function (func, delay) {
   }
 }
 
-// 时间错 + 定时器方式
+/**
+ * 时间错 + 定时器方式实现节流
+ * @param {function} func 处理函数
+ * @param {number} delay 触发时间
+ */
 var throttle3 = function (func, delay) {
   var timer = null
   var startTime = Date.now()
