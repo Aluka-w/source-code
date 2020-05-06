@@ -35,4 +35,5 @@ login1.show()
 let login2 = LoginForm.getInstance()
 login2.show()
 
+// login1 === login2, 代码生成的是同一个实例
 console.log('login1 === login2 :>> ', login1 === login2);
