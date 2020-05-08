@@ -25,6 +25,14 @@
    1. 对于普通函数，绑定 this 指向
    2. 对于构造函数，要保证原函数的原型对象上的属性不能丢失
 
+3. 实现 apply/call
+
+4. 实现 Promise
+
+5. 深拷贝
+
+6. 实现 instanceOf
+
 ## 数组扁平化
 
 1. flat 函数
@@ -149,7 +157,7 @@ React.createElement = function (tag, attrs, children) {
    console.log(agent.customPrice)
 ```
 
-### 发布订阅
+### 观察者模式
 
 1. 概念: 当一个对象的状态发送改变时，所有依赖于它的对象都将得到状态改变的通知
 
