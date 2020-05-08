@@ -21,5 +21,5 @@ function deepCopy(obj) {
 let ary = [1, [{a: 1}, 3, {b: 4, c: { d: 5, f: [1, 2] } } ] ]
 
 let ary2 = deepCopy(ary)
-
+// JSON.stringify为了完整显示
 console.log(ary === ary2, JSON.stringify(ary2))

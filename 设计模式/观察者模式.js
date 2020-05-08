@@ -1,7 +1,7 @@
 /**
  * @description 发布订阅 模式
  */
-class Event {
+class Pubsub {
   constructor() {
     // 缓存的事件列表
     this.callback = {}
@@ -25,7 +25,7 @@ class Event {
   }
 }
 
-const event = new Event()
+const event = new Pubsub()
 // 订阅
 event.$on('event1', function (arg) {
   console.log('1', arg)
@@ -39,3 +39,7 @@ event.$on('event1', function (arg) {
 // 取消订阅
 event.$off('event1')
 event.$emit('event1', { name: 'text' })
+
+/**
+ * @description 观察者模式
+ */
