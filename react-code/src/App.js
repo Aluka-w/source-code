@@ -1,11 +1,36 @@
-import React from 'react';
+import React from 'react'
+import { connect } from './react-redux'
 
-function App() {
+export const App = (props) => {
   return (
     <div>
-      test
+      <h1>{props.count}</h1>
+      <button onClick={props.handleAdd}>+</button>
+      <button onClick={props.handleminus}>-</button>
+      <br/>
+      <br/>
+      <button onClick={props.handleAsyncAdd}>异步增加</button>
     </div>
-  );
+  )
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  count: state.count
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  handleAdd() {
+    dispatch({ type: 'add' })
+  },
+  handleminus() {
+    dispatch({ type: 'minus' })
+  },
+  handleAsyncAdd() {
+    setTimeout(() => {
+      dispatch({ type: 'add' })
+    }, 1000);
+  }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
+
