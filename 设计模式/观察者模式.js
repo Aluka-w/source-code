@@ -25,9 +25,9 @@ class Pubsub {
   }
 }
 
-const event = new Event()
+const event = new Pubsub()
 // 订阅
-event.$on('event1', function(arg) {
+event.$on('event1', function (arg) {
   console.log('1', arg)
 })
 // event.$on('event1', function(arg) {
