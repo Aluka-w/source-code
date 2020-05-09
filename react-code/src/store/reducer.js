@@ -2,7 +2,8 @@ const initState = {
   count: 1
 }
 
-const reducer = (state, action) => {
+const reducer = (state = initState, action) => {
+  console.log(123, state);
   switch (action.type) {
     case 'add':
       return { count: state.count + 1 };

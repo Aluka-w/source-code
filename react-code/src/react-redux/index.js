@@ -2,17 +2,17 @@ import React, { useContext, useEffect, useReducer } from 'react';
 
 const Context = React.createContext()
 
-export const Provider = (props) => {
-  <Context.Provider value={props.store}>
+export const Provider = (props) => (
+  <Context.Provider value={props}>
     {props.children}
   </Context.Provider>
-}
+)
 
 export const connect = (mapStateToProps, mapDispatchToProps) => Com => (props) => {
   const context = useContext(Context)
+  const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
   // 强制更新，hook中实现 forceUpdate 函数
   const handleChange = () => {
-    const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     forceUpdate()
   }
 

@@ -2,12 +2,12 @@
  * @description 手写 redux
  */
 
-const createStore = (reducer) => {
+const createStore = (reducer, enhancer) => {
   // enhancer 加强
   if (enhancer) {
     return enhancer(createStore)(reducer)
   }
-  let state = {}
+  let state
   let observers = [] // 观察者队列
   const getState = () => { // getter
     return state
@@ -45,3 +45,5 @@ const applyMiddleware = (...middlewares) => createStore => reducer => {
   // return 新的 store
   return {...store, dispatch}
 }
+
+export { createStore, applyMiddleware }
