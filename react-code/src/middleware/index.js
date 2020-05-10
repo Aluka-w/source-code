@@ -1,4 +1,6 @@
 export const logger = (store) => (next) => (action) => {
+  // next = store.dispatch
+  // next(action) = store.dispatch(action)
   console.log("进入log")
   let result = next(action)
   return result

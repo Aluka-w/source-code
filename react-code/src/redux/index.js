@@ -24,6 +24,7 @@ const createStore = (reducer, enhancer) => {
 }
 
 // (...arg) => mid1(mid2(mid3(...arg)))
+// 函数柯里化
 const compose = (...fns) => {
   if (fns.length === 0) return arg =>arg
   if (fns.length === 1) return fns[0]
@@ -37,9 +38,11 @@ const applyMiddleware = (...middlewares) => createStore => reducer => {
     dispatch: (action) => store.dispatch(action)
     // 不直接使用 dispatch，会产生闭包，所有都共用一个 dispatch
   }
-  // 给所有中间件提供 （state，dispatch）
+  // 给所有中间件提供 （state，dispatch)
   const middlewareArr = middlewares.map(middleware => middleware(params))
+  // console.log('middlewareArr', middlewareArr);
   const dispatch = compose(...middlewareArr)(store.dispatch)
+  // console.log('dispatch', dispatch); // 循环执行，直到最后 dispatch
   // 直接主要是返回新的 dispatch
   // const store = createStore(reducer, applyMiddleware(logger, thunk))
   // return 新的 store

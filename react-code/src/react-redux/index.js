@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useReducer } from 'react';
 
 const Context = React.createContext()
-
+// 通过 context 存储 store
 export const Provider = (props) => (
   <Context.Provider value={props}>
     {props.children}
@@ -17,8 +17,9 @@ export const connect = (mapStateToProps, mapDispatchToProps) => Com => (props) =
   }
 
   useEffect(() => {
+    // 调用 context 中的 store.subscribe 监听变化，再强制刷新
     context.store.subscribe(handleChange)
-  }, [])
+  }, [context])
 
   return (
     <Com
