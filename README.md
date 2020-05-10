@@ -169,3 +169,8 @@ React.createElement = function (tag, attrs, children) {
    ![区别](/img/发布订阅.png)
 
 ## redux，react-redux 源码
+
+1. redux：实现 getSate，subscribe，dispatch，applyMiddleware
+2. react-redux：实现 connect，Provider
+
+> 参考： `https://juejin.im/post/5def4831e51d45584b585000`
