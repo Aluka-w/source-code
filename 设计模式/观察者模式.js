@@ -8,13 +8,13 @@ class Pubsub {
   }
   // 订阅事件
   $on(name, fn) {
-    ;(this.callback[name] || (this.callback[name] = [])).push(fn)
+    (this.callback[name] || (this.callback[name] = [])).push(fn)
   }
   // 发布事件
   $emit(name, arg) {
     const cbs = this.callback[name]
     if (cbs) {
-      cbs.forEach((c) => {
+      cbs.forEach(c => {
         c.call(this, arg)
       })
     }
@@ -43,3 +43,33 @@ event.$emit('event1', { name: 'text' })
 /**
  * @description 观察者模式
  */
+
+// 观察者
+class Observer {
+  constructor(fn) {
+    this.update(fn)
+  }
+}
+// 被观察者
+class Subject {
+  constructor() {
+    this.observer = [] // 观察者队列
+  }
+  addObserver(observer) { // 往观察者队列中添加观察者
+    this.observer.push(observer)
+  }
+  notify() { // 通知福哦呦的观察者
+    this.observer.forEach(ob => {
+      ob.update()
+    })
+  }
+}
+// 测试
+let subject = new Subject()
+const opdata = () => {console.log('被观察者发出通知')}
+let ob1 = new Subject()
+let ob2 = new Subject()
+subject.addObserver(ob1)
+subject.addObserver(ob2)
+subject.notify()
+
