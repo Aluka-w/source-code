@@ -1,46 +1,161 @@
-function myPromise(constructor) {
-  let self = this
-  self.status = 'pending' //定义状态改变前的初始状态
-  self.value = undefined //定义状态为resolved的时候的状态
-  self.reason = undefined //定义状态为rejected的时候的状态
-  function resolve(value) {
-    //两个==="pending"，保证了状态的改变是不可逆的
-    if (self.status === 'pending') {
-      self.value = value
-      self.status = 'resolved'
+class MyPromise{
+  constructor(executor){
+    this.state = 'pending';
+    this.value = undefined;
+    this.reason = undefined;
+    this.onResolvedCallbacks = [];
+    this.onRejectedCallbacks = [];
+    let resolve = value => {
+      if (this.state === 'pending') {
+        this.state = 'fulfilled';
+        this.value = value;
+        this.onResolvedCallbacks.forEach(fn=>fn());
+      }
+    };
+    let reject = reason => {
+      if (this.state === 'pending') {
+        this.state = 'rejected';
+        this.reason = reason;
+        this.onRejectedCallbacks.forEach(fn=>fn());
+      }
+    };
+    try{
+      executor(resolve, reject);
+    } catch (err) {
+      reject(err);
     }
   }
-  function reject(reason) {
-    //两个==="pending"，保证了状态的改变是不可逆的
-    if (self.status === 'pending') {
-      self.reason = reason
-      self.status = 'rejected'
+  then(onFulfilled,onRejected) {
+    onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : value => value;
+    onRejected = typeof onRejected === 'function' ? onRejected : err => { throw err };
+    let promise2 = new Promise((resolve, reject) => {
+      if (this.state === 'fulfilled') {
+        setTimeout(() => {
+          try {
+            let x = onFulfilled(this.value);
+            resolvePromise(promise2, x, resolve, reject);
+          } catch (e) {
+            reject(e);
+          }
+        }, 0);
+      };
+      if (this.state === 'rejected') {
+        setTimeout(() => {
+          try {
+            let x = onRejected(this.reason);
+            resolvePromise(promise2, x, resolve, reject);
+          } catch (e) {
+            reject(e);
+          }
+        }, 0);
+      };
+      if (this.state === 'pending') {
+        this.onResolvedCallbacks.push(() => {
+          setTimeout(() => {
+            try {
+              let x = onFulfilled(this.value);
+              resolvePromise(promise2, x, resolve, reject);
+            } catch (e) {
+              reject(e);
+            }
+          }, 0);
+        });
+        this.onRejectedCallbacks.push(() => {
+          setTimeout(() => {
+            try {
+              let x = onRejected(this.reason);
+              resolvePromise(promise2, x, resolve, reject);
+            } catch (e) {
+              reject(e);
+            }
+          }, 0)
+        });
+      };
+    });
+    return promise2;
+  }
+  catch(fn){
+    return this.then(null,fn);
+  }
+}
+function resolvePromise(promise2, x, resolve, reject){
+  if(x === promise2){
+    return reject(new TypeError('Chaining cycle detected for promise'));
+  }
+  let called;
+  if (x != null && (typeof x === 'object' || typeof x === 'function')) {
+    try {
+      let then = x.then;
+      if (typeof then === 'function') { 
+        then.call(x, y => {
+          if(called)return;
+          called = true;
+          resolvePromise(promise2, y, resolve, reject);
+        }, err => {
+          if(called)return;
+          called = true;
+          reject(err);
+        })
+      } else {
+        resolve(x);
+      }
+    } catch (e) {
+      if(called)return;
+      called = true;
+      reject(e); 
     }
+  } else {
+    resolve(x);
   }
-  //捕获构造异常
-  try {
-    constructor(resolve, reject)
-  } catch (e) {
-    reject(e)
-  }
+}
+//resolve方法
+Promise.resolve = function(val){
+  return new Promise((resolve,reject)=>{
+    resolve(val)
+  });
+}
+//reject方法
+Promise.reject = function(val){
+  return new Promise((resolve,reject)=>{
+    reject(val)
+  });
+}
+//race方法 
+Promise.race = function(promises){
+  return new Promise((resolve,reject)=>{
+    for(let i=0;i<promises.length;i++){
+      promises[i].then(resolve,reject)
+    };
+  })
+}
+//all方法(获取所有的promise，都执行then，把结果放到数组，一起返回)
+Promise.all = function(promises){
+  let arr = [];
+  let i = 0;
+  function processData(index,data){
+    arr[index] = data;
+    i++;
+    if(i == promises.length){
+      resolve(arr);
+    };
+  };
+  return new Promise((resolve,reject)=>{
+    for(let i=0;i<promises.length;i++){
+      promises[i].then(data=>{
+        processData(i,data);
+      },reject);
+    };
+  });
 }
 
-myPromise.prototype.then = function (onFullfilled, onRejected) {
-  let self = this
-  switch (self.status) {
-    case 'resolved':
-      onFullfilled(self.value)
-      break
-    case 'rejected':
-      onRejected(self.reason)
-      break
-    default:
-  }
-}
-var p = new myPromise(function (resolve, reject) {
-  resolve(1)
-})
-p.then(function (x) {
-  console.log(x)
+// 测试
+const p = new MyPromise((resolve, reject) => {
+  setTimeout(() => {
+    resolve(1)
+  }, 1000);
+}).then((x) => {
+  return x
+}).then((y) => {
+  console.log(y)
 })
 //输出1
