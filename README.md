@@ -29,6 +29,8 @@
 
 4. 实现 Promise
 
+   >参考： `https://juejin.im/post/5b2f02cd5188252b937548ab`
+
 5. 深拷贝
 
 6. 实现 instanceOf
