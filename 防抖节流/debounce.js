@@ -11,6 +11,7 @@
   * @param {number} wait delay时间
   */
 function debounce(fn, wait) {
+  // 闭包存储 timer
   var timeout = null
   return function () {
     if (timeout != null) {

@@ -47,7 +47,7 @@ event.$emit('event1', { name: 'text' })
 // 观察者
 class Observer {
   constructor(fn) {
-    this.update(fn)
+    this.update = fn
   }
 }
 // 被观察者
@@ -58,7 +58,7 @@ class Subject {
   addObserver(observer) { // 往观察者队列中添加观察者
     this.observer.push(observer)
   }
-  notify() { // 通知福哦呦的观察者
+  notify() { // 通知所有的观察者
     this.observer.forEach(ob => {
       ob.update()
     })
@@ -67,8 +67,8 @@ class Subject {
 // 测试
 let subject = new Subject()
 const opdata = () => {console.log('被观察者发出通知')}
-let ob1 = new Subject()
-let ob2 = new Subject()
+let ob1 = new Observer(update)
+let ob2 = new Observer(update)
 subject.addObserver(ob1)
 subject.addObserver(ob2)
 subject.notify()
