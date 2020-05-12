@@ -1,3 +1,6 @@
+/**
+ * @description 单例模式：一个类只能构造出唯一实例
+ */
 class LoginForm {
   constructor() {
     this.state = 'hide'
@@ -19,6 +22,7 @@ class LoginForm {
     console.log('登录框隐藏成功');
   }
 }
+// 假如存在就直接返回旧对象
 LoginForm.getInstance = (function () {
   let instance
   return function() {

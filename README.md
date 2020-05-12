@@ -49,6 +49,11 @@
 ### 排序
 
    1. 冒泡排序
+   2. 快排序
+   3. 归并排序
+   4. 堆排序
+
+   5. V8的Array.sort()就采取了当 n<=10 时, 采用插入排序, 当 n>10 时，采用三路快排的排序策略
 
 ## 设计模式
 
@@ -66,9 +71,9 @@
 
 ### 工厂模式
 
-1. 概念: 直接生成实例, 避免每次都 new 生成, 一般出现在 new 新实例上
+1. 概念: 对创建对象逻辑的封装
 
-2. 经典使用场景
+2. 经典使用场景 : jQuery的$(selector)
 
 ```js
 // jquery 的 $
@@ -88,7 +93,7 @@ React.createElement = function (tag, attrs, children) {
 
 ### 单例模式
 
-1. 概念: 保证全局只存在一个实例
+1. 概念: 一个类只能构造出唯一实例
 
 2. 经典实例
 
@@ -112,9 +117,9 @@ React.createElement = function (tag, attrs, children) {
 
 ### 代理模式
 
-1. 概念: 通过代理访问私有方法(类比翻墙, vpn)
+1. 概念: 控制对象的访问(类比翻墙, vpn)
 
-2. 经典使用
+2. 经典使用：事件代理、ES6的Proxy
 
 ```js
    // 网页事件代理(通过事件冒泡给父标签绑定事件)
@@ -163,6 +168,18 @@ React.createElement = function (tag, attrs, children) {
    agent.customPrice = 15000
    console.log(agent.customPrice)
 ```
+
+### 装饰器模式
+
+1. 概念：对类的包装，动态地拓展类的功能
+
+2. 经典使用：React高阶组件、ES7 装饰器、Redux connect()函数
+
+### 适配器模式
+
+1. 概念：兼容新旧接口，对类的包装
+
+2. 经典使用：封装旧API
 
 ### 观察者模式 和 发布订阅
 
