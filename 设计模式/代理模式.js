@@ -1,3 +1,6 @@
+/**
+ * @description 代理模式：控制对象的访问
+ */
 class ReadImg {
   constructor(fileName) {
     this.fileName = fileName
