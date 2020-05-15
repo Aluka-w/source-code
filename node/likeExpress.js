@@ -55,6 +55,9 @@ class LikeExpress {
     curRoute = curRoute.concat(this.route[method])
     curRoute.forEach(routeInfo => {
       if (url.indexOf(routeInfo.path) === 0) {
+        // url === '/api/get-cookie' 且 routeInfo.path === '/'
+        // url === '/api/get-cookie' 且 routeInfo.path === '/api'
+        // url === '/api/get-cookie' 且 routeInfo.path === '/api/get-cookie'
         stack = stack.concat(routeInfo.stack)
       }
     })
@@ -66,7 +69,7 @@ class LikeExpress {
       // 拿到第一个匹配的中间件
       const middleware = stack.shift()
       if (middleware) {
-        middleware(res, res, next)
+        middleware(req, res, next)
       }
     }
     next()
