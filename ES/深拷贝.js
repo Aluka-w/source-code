@@ -10,7 +10,7 @@ function deepCopy(obj) {
       result[i] = typeof obj[i] === 'object' ? deepCopy(obj[i]) : obj[i]
     }
   } else {
-    var result = obj
+    result = obj
   }
   return result
 }
